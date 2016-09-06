@@ -1,6 +1,22 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    signingConfigs {
+        release {
+            storeFile file ('keystore/demafayz_keystore.jks')
+            storePassword('ASD098pol')
+            keyAlias('ASD098polAlias')
+            keyPassword('ASD098pol')
+        }
+        debug {
+            storeFile file ('keystore/demafayz_keystore.jks')
+            storePassword('ASD098pol')
+            keyAlias('ASD098polAlias')
+            keyPassword('ASD098pol')
+        }
+    }
+
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 

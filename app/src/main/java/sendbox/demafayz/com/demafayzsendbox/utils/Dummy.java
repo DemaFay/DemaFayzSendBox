@@ -10,6 +10,7 @@ public class Dummy {
     public static List<String> populateFeaturesItems() {
         List<String> items = new ArrayList<>();
         items.add("Yandex Money");
+        items.add("VKSDK Photo");
         return items;
     }
 }

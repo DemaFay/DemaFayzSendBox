@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sendbox.demafayz.com.demafayzsendbox.R;
@@ -33,7 +34,7 @@ public class SocialRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public SocialRecyclerAdapter(List<String> photoPaths) {
-        this.photoPaths = photoPaths;
+        this.photoPaths = photoPaths != null ?  photoPaths : new ArrayList<String>();
     }
 
     @Override
