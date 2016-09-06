@@ -31,7 +31,7 @@ public class YandexMoneyAPI {
     private static final String REQUEST_EXTERNAL_PAYMENT_URL = HOST + "/api/request-external-payment";
     private static final String PROCESS_EXTERNAL_PAYMENT_URL = HOST + "/api/process-external-payment";
 
-    public static Object requestProcessExternalPayment(String requestId, String instanceId, String extAuthSuccessUri, String extAuthFailUri) {
+    public static Result requestProcessExternalPayment(String requestId, String instanceId, String extAuthSuccessUri, String extAuthFailUri) {
         String output = "request_id=" + requestId +
                 "&instance_id=" + instanceId +
                 "&ext_auth_success_ur=" + extAuthSuccessUri +
@@ -40,7 +40,7 @@ public class YandexMoneyAPI {
         OutputStream os = null;
         HttpURLConnection conn = null;
         String success = null;
-        Object successResult = null;
+        Result successResult = null;
         try {
             URL url = new URL(PROCESS_EXTERNAL_PAYMENT_URL);
             conn = (HttpURLConnection) url.openConnection();
@@ -84,23 +84,27 @@ public class YandexMoneyAPI {
         return successResult;
     }
 
-    private static Object getProcessExternalPaymentResult(String success) throws JSONException {
+    private static Result getProcessExternalPaymentResult(String success) throws JSONException {
         JSONObject object = new JSONObject(success);
+        Result result = new Result();
         String status = object.getString("status");
-        Object objectResult = null;
         if (status.equals("success")) {
             String invoicId = object.getString("invoice_id");
-            objectResult = invoicId;
+            result.setType(Result.Type.SUCCESS);
+            result.setInvoiceId(invoicId);
             AppUtil.dLog(YandexMoneyAPI.class, "result: " + invoicId);
         } else if (status.equals("in_progress")) {
-            int nextRetry = Integer.valueOf(object.getString("next_retry"));
-            objectResult = nextRetry;
+            long nextRetry = Integer.valueOf(object.getString("next_retry"));
+            result.setType(Result.Type.RETRY);
+            result.setNextRetry(nextRetry);
             AppUtil.dLog(YandexMoneyAPI.class, "result: " + nextRetry);
         } else if (status.equals("refused")) {
-            objectResult = null;
-            AppUtil.dLog(YandexMoneyAPI.class, "result: " + object.getString("error"));
+            String error = object.getString("error");
+            result.setType(Result.Type.ERROR);
+            result.setError(error);
+            AppUtil.dLog(YandexMoneyAPI.class, "result: " + error);
         }
-        return objectResult;
+        return result;
     }
 
     public static String requestExternalPayment(String patternId, String instanceId, String to, double amount) {
@@ -241,5 +245,49 @@ public class YandexMoneyAPI {
     private static void writeInstanceIdStream(OutputStream os) throws IOException {
         os.write(INSTANCE_ID_OUTPUT.getBytes());
         os.flush();
+    }
+
+    public static class Result {
+
+        private Type type;
+        private String invoiceId;
+        private String error;
+        private long nextRetry;
+
+        public Type getType() {
+            return type;
+        }
+
+        public void setType(Type type) {
+            this.type = type;
+        }
+
+        public String getInvoiceId() {
+            return invoiceId;
+        }
+
+        public void setInvoiceId(String invoiceId) {
+            this.invoiceId = invoiceId;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
+        }
+
+        public long getNextRetry() {
+            return nextRetry;
+        }
+
+        public void setNextRetry(long nextRetry) {
+            this.nextRetry = nextRetry;
+        }
+
+        public enum Type {
+            SUCCESS, ERROR, RETRY
+        }
     }
 }
