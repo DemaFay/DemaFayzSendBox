@@ -58,4 +58,9 @@ public class SocialRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemCount() {
         return photoPaths.size();
     }
+
+    public void update(List<String> path) {
+        this.photoPaths = path;
+        notifyDataSetChanged();
+    }
 }

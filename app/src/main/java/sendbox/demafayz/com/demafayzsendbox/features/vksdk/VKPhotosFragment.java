@@ -39,8 +39,9 @@ public class VKPhotosFragment extends BaseFragment implements VKCallback<VKAcces
     private String[] vkScope = {VKScope.PHOTOS};
 
     private ViewHolder vh;
+    private VKAccessToken res;
     private List<VKPhotoItemData> photoItemDatas;
-    private List<String> path;
+    private List<String> path = new ArrayList<>();
     private int currentPage = 1;
     private int queryCount = 20;
 
@@ -82,6 +83,7 @@ public class VKPhotosFragment extends BaseFragment implements VKCallback<VKAcces
      */
     @Override
     public void onResult(VKAccessToken res) {
+        this.res = res;
         populatePhotos(res);
     }
 
@@ -95,17 +97,23 @@ public class VKPhotosFragment extends BaseFragment implements VKCallback<VKAcces
 
     private void populatePhotos(final VKAccessToken res) {
         String ownerId = res.userId;
-        final VKRequest request = new VKRequest("photos.getAll", VKParameters.from(VKApiConst.OWNER_ID, ownerId, VKApiConst.COUNT, queryCount, VKApiConst.OFFSET, (queryCount - 1) * queryCount));
+        final VKRequest request = new VKRequest("photos.getAll", VKParameters.from(VKApiConst.OWNER_ID, ownerId, VKApiConst.OFFSET, path.size()));
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
                 photoItemDatas = populatePhotoList(response);
-                path = new ArrayList<>();
+                if (currentPage == 1) {
+                    path = new ArrayList<String>();
+                }
                 for (VKPhotoItemData itemData : photoItemDatas) {
                     path.add(itemData.getPhotoItems().get(0).getUrl());
                 }
-                showData();
+                if (currentPage == 1) {
+                    showData();
+                } else {
+                    updateAdapter();
+                }
             }
 
             @Override
@@ -118,6 +126,10 @@ public class VKPhotosFragment extends BaseFragment implements VKCallback<VKAcces
                 super.attemptFailed(request, attemptNumber, totalAttempts);
             }
         });
+    }
+
+    private void updateAdapter() {
+        adapter.update(path);
     }
 
     private List<VKPhotoItemData> populatePhotoList(VKResponse response) {
@@ -241,7 +253,10 @@ public class VKPhotosFragment extends BaseFragment implements VKCallback<VKAcces
         vh.rvPhotos.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page) {
-
+                if (currentPage != current_page) {
+                    currentPage = current_page;
+                    populatePhotos(res);
+                }
             }
         });
     }
