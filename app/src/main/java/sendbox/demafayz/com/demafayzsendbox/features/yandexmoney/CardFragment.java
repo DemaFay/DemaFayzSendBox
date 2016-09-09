@@ -41,15 +41,15 @@ public class CardFragment extends ChildFragment {
 
     @Override
     protected void doInBackground(Context context) {
-//        String result = YandexMoneyAPI.instanceId();
-//        String result = YandexMoneyAPI.requestExternalPayment("p2p",
-//                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1",
-//                "41001101140",
-//                100);
-//        Object result = YandexMoneyAPI.requestProcessExternalPayment("3931303833373438395f343434316466313864616236613236363063386361663834336137386537643935383639383062635f3330363333323938",
-//                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1",
-//                "yandexmoneyapp%3A%2F%2Fsuccess",
-//                "yandexmoneyapp%3A%2F%2Ffail");
+        String instanceId = YandexMoneyAPI.instanceId();
+        String requestId = YandexMoneyAPI.requestExternalPayment("p2p",
+                instanceId,
+                YandexMoneyAPI.SELLER_PURSE,
+                100);
+        YandexMoneyAPI.Result externalPayment = YandexMoneyAPI.requestProcessExternalPayment(requestId,
+                instanceId,
+                "yandexmoneyapp://oauth/authorize/success",
+                "yandexmoneyapp://oauth/authorize/fail");
     }
 
     @Override

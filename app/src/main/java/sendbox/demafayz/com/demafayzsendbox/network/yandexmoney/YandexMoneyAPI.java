@@ -26,7 +26,8 @@ public class YandexMoneyAPI {
 
     private static final String HOST = "https://money.yandex.ru";
     private static final String INSTANCE_ID_URL = HOST + "/api/instance-id";
-    private static final String CLIENT_ID = "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1";
+    public static final String SELLER_PURSE = "410013300763861";
+    private static final String CLIENT_ID = "2D8D35652925B1916CCD46BF33DBFA1E45E08A9E3AC79DAB07C128F9D112F683";
     private static final String INSTANCE_ID_OUTPUT = "client_id=" + CLIENT_ID;
     private static final String REQUEST_EXTERNAL_PAYMENT_URL = HOST + "/api/request-external-payment";
     private static final String PROCESS_EXTERNAL_PAYMENT_URL = HOST + "/api/process-external-payment";
