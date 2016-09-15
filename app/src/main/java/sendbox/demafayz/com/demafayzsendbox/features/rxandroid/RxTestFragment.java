@@ -30,6 +30,7 @@ public class RxTestFragment extends Fragment implements View.OnClickListener {
 
     private ViewHolder vh;
     private Looper backgroundLooper;
+    private int startCount = 0;
 
     private class ViewHolder {
         public TextView tvResult;
@@ -91,6 +92,7 @@ public class RxTestFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onNext(String o) {
                 AppUtil.dLog(RxTestFragment.class, "onNext: " + o);
+                vh.tvResult.setText(o);
             }
         });
     }
@@ -101,11 +103,12 @@ public class RxTestFragment extends Fragment implements View.OnClickListener {
             public Observable<String> call() {
                 try {
                     Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+                    startCount++;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     throw OnErrorThrowable.from(e);
                 }
-                return Observable.just("one", "two", "three", "four", "five");
+                return Observable.just("RxStart count: " + String.valueOf(startCount));
             }
         });
         return observable;
