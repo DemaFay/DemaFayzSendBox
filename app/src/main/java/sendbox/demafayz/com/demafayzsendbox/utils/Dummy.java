@@ -11,6 +11,7 @@ public class Dummy {
         List<String> items = new ArrayList<>();
         items.add("Yandex Money");
         items.add("VKSDK Photo");
+        items.add("RxAndroid Test");
         return items;
     }
 }

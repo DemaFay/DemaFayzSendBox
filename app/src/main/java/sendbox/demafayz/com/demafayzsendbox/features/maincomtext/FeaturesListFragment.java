@@ -13,6 +13,7 @@ import java.util.List;
 
 import sendbox.demafayz.com.demafayzsendbox.R;
 import sendbox.demafayz.com.demafayzsendbox.features.basecomponents.BaseFragment;
+import sendbox.demafayz.com.demafayzsendbox.features.rxandroid.RxTestFragment;
 import sendbox.demafayz.com.demafayzsendbox.features.vksdk.VKSDKActivity;
 import sendbox.demafayz.com.demafayzsendbox.features.yandexmoney.CardFragment;
 import sendbox.demafayz.com.demafayzsendbox.utils.ContextUtil;
@@ -68,6 +69,10 @@ public class FeaturesListFragment extends BaseFragment implements FeaturesListAd
                 break;
             case 1:
                 ContextUtil.showActivity(getContext(), VKSDKActivity.class);
+                break;
+            case 2:
+                ContextUtil.showFragment(getActivity(), RxTestFragment.newInstance(), true);
+                break;
         }
     }
 
