@@ -17,38 +17,26 @@ public class Dummy {
     }
 
     public static String populateTestJSONObject() {
-        String json = "{\n" +
-                "  \"Orin\": {\n" +
-                "    \"age\": 90,\n" +
-                "    \"facialHair\": \"black beard and mustache\",\n" +
-                "    \"weapons\": [\n" +
-                "      {\n" +
-                "        \"name\": \"Slasher\",\n" +
-                "        \"origin\": \"Gondolin\",\n" +
-                "        \"type\": \"sword\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"name\": \"Oaken Shield\",\n" +
-                "        \"origin\": \"Moria\",\n" +
-                "        \"type\": \"shield\"\n" +
-                "      },\n" +
-                "      \"dagger\"\n" +
-                "    ]\n" +
-                "  },\n" +
-                "  \"Kori\": {\n" +
-                "    \"age\": 60,\n" +
-                "    \"facialHair\": \"red mustache\",\n" +
-                "    \"weapons\": [\n" +
-                "      \"mace\",\n" +
-                "      \"bow\"\n" +
-                "    ]\n" +
-                "  },\n" +
-                "  \"Billy Bob\": {\n" +
-                "    \"age\": 45,\n" +
-                "    \"facialHair\": \"is he really a dwarf?\",\n" +
-                "    \"weapons\": []\n" +
-                "  }\n" +
-                "}";
+        String json = "[\n" +
+                "   {\n" +
+                "      \"date\":\"11/8/2014\",\n" +
+                "      \"auther\":\"nirav kalola 0\",\n" +
+                "      \"description\":\"json object parsing using gson library is easy\",\n" +
+                "      \"post_name\":\"json object parsing\"\n" +
+                "   },\n" +
+                "   {\n" +
+                "      \"date\":\"12/8/2014\",\n" +
+                "      \"auther\":\"nirav kalola 1\",\n" +
+                "      \"description\":\"json array parsing using gson library\",\n" +
+                "      \"post_name\":\"json array parsing\"\n" +
+                "   },\n" +
+                "   {\n" +
+                "      \"date\":\"17/8/2014\",\n" +
+                "      \"auther\":\"nirav kalola 2\",\n" +
+                "      \"description\":\"store json file in assets folder and get data when required\",\n" +
+                "      \"post_name\":\"json parsing from assets folder\"\n" +
+                "   }\n" +
+                "]";
         return json;
     }
 }
